@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
+	<title>Registro</title>
+
+    <script type="text/JavaScript" src="js/registro.js"></script>
+    <script language="JavaScript" type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script type="text/javascript" language="javascript">
+      $(window).load(function(){
+
+        $(function() {
+          $('#file-input').change(function(e) {
+            addImage(e); 
+          });
+
+          function addImage(e){
+            var file = e.target.files[0],
+            imageType = /image.*/;
+    
+            if (!file.type.match(imageType))
+              return;
+  
+            var reader = new FileReader();
+            reader.onload = fileOnload;
+            reader.readAsDataURL(file);
+          }
+  
+          function fileOnload(e) {
+            var result=e.target.result;
+            $('#imgSalida').attr("src",result);
+          }
+        });
+      });
+    </script>
+  </head>
+  
+  <body>
+    <div>
+  	  <form action='registrar.php' method='POST' id='registro' name='registro' onSubmit='return validar()'>
+      <fieldset>
+      <legend>Formulario de registro</legend>
+        <p>Nombre: <input type='text' id='nombre' name='nombre' value=''></p>
+        <p>Apellidos: <input type='text' id='apellidos' name='apellidos' value=''></p>
+        <p>Dirección de correo: <input type='text' id='email' name='email' value='' onblur="comprobarEmail()"> <label id="comprobacionEmail"></label> </p> 
+        <p>Contraseña: <input type='password' id='contrasena' name='contrasena' value='' onblur="comprobar()"> <label id="comprobacionPass"></label></p>
+        <p>Repite la contraseña: <input type='password' id='repite-password' onblur="comprobarContraseñas()"> <label id="comprobacionContraseñas"></label></p>
+        <p>Número de teléfono: <input type='text' id='telefono' name='telefono' value=''></p>
+        <p>Especialidad: </p>
+        <input type='radio' onfocus="eliminarCaja()" name='especialidad' id='software' value='Ingenieria del Software'> Ingeniería del Software
+        <br/>
+        <input type='radio' onfocus="eliminarCaja()" name='especialidad' id='computadores' value='Ingenieria de Computadores'> Ingeniería de Computadores
+        <br/>
+        <input type='radio' onfocus="eliminarCaja()" name='especialidad' id='computacion' value='Computacion'> Computación
+        <br/>
+        <spam id="nuevacaja"><input type='radio' onfocus="crearCaja()" name='especialidad' id='otra' value=''> Otra: </spam>
+        <p>Tecnologías y herramientas en las que está interesado: </p>
+        <textarea cols="40" rows="7" name="tecnologias"></textarea>
+        <p>Ingresa el archivo: <input type='file' id ='file-input' name='file-input' /></p>
+        <img id="imgSalida" width="15%" height="15%" />
+        <p><input type='submit' name='enviar' value='Enviar' id="enviar"></p>
+        <a href="layout.php">Volver</a>
+      </form>
+    </div>
+  </body>
+</html>
